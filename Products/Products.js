@@ -5,22 +5,20 @@ export default function Products() {
     const [data, setData] = useState([])
     const filePath = 'https://dummyjson.com/products/'; 
     useEffect(() => {
-        //Alert.alert(filePath);
         fetch(filePath)
-        .then((response) => { if (!response.ok) {
-        throw new Error('Network response was not ok');
-
-        }
-        return response.json();
-        })
-
-        .then((d) => {
-            setData(d.products);
-        })
-        .catch((error) => {
-            console.error('Error fetching data:', error);
-        });
-    });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            return response.json();
+            })
+            .then((d) => {
+                setData(d.products)
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            })
+    },[data]);
     const Item = ({ title, description, price, discountPercentage, rating, stock, brand, category, thumbnail}) => (
         <View style={{flex:1, flexDirection: 'row', margin: 4, backgroundColor: '#D8D8D8'}}>
         <View style={{flex: 0.3, padding:10}}>
@@ -71,12 +69,15 @@ export default function Products() {
 
     return (
         <View style={styles.container}>
-        {data && (
-            <FlatList
-            data={data}
-            renderItem={renderItem}
-            />
-        )}
+            <View>
+                <Text style={{fontSize: 24, margin: 6}}>Product List</Text>
+            </View>
+            {data && (
+                <FlatList
+                data={data}
+                renderItem={renderItem}
+                />
+            )}
         </View>
     );
     }
